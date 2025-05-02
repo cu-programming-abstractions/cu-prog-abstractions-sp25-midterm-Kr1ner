@@ -14,8 +14,28 @@ bool MazeSolver::dfs(Maze& maze, int r, int c, vector<vector<bool>>& visited) {
                  maze.path and return true
     6. Fail    – otherwise return false
     */
+    if (!maze.inBounds(r, c) || maze.isWall(r, c) || visited[r][c]) {
+        return false;
+    }
 
-    // TODO: Your implementation here
+
+    if(r == maze.finish.row && c == maze.finish.col){
+        maze.path.push_back({r,c});
+        return true;
+    }
+    visited[r][c] = true;
+    const int dr[] = {-1, 0, 1, 0};
+    const int dc[] = {0, 1, 0, -1};
+    for(int i=0;i<4;++i){
+        int newR = r + dr[i];
+        int newC = c + dc[i];
+
+        if (dfs(maze,newR,newC,visited)){
+            maze.path.push_back({r,c});
+            return true;
+        }
+    }
+
     return false;
 }
 
